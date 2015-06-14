@@ -1,0 +1,61 @@
+---
+title       : Your Weight on Other Planets
+subtitle    : 
+author      : Erik
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : prettify  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : [mathjax]            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Have you ever wondered...
+
+- ... How much you would weigh on other planets (and the sun!)
+- ... How you would calculate your weight
+- ... Why there isn't a free shiny app that can calculate that for you
+
+--- .class #id 
+
+## Wonder No More!
+
+Finally, a free, easy to use Shiny app that will calculate your weight on every planet in our solar system!
+
+<img src="shinyapp.png" alt="screenshot">
+
+
+--- .class #id 
+
+## Easy to use!
+- You just need a scale and a computer with a keyboard
+- Enter your weight on Earth, and choose a planet
+- The app takes care of all the math for you:
+
+
+ $Your New Weight= {Your Weight On Earth}*\frac{New Planet's Mass}{New Planet's Radius^2}/\frac{Earth's Mass}{Earth's Radius^2}$
+
+
+
+--- .class #id 
+
+## Always know your weight!
+
+As shown below, the weight of a 100lb person can vary wildly from planet to planet. Bookmark <a href="http://captainmosey.shinyapps.io/shinyapp"> Your Weight on other Planets</a> and always know your weight!
+
+```{r,echo=FALSE,size="scriptsize"}
+#I cant figure out a way to have echo= TRUE and not have the plot off the bottom of the slide!
+
+planetData=data.frame(Mercury=numeric(0),Venus=numeric(0),Earth=numeric(0),Mars=numeric(0),Jupiter=numeric(0),Saturn=numeric(0),Uranus=numeric(0),Neptune=numeric(0),TheMoon=numeric(0),TheSun=numeric(0),Pluto=numeric(0),stringsAsFactors=FALSE)
+
+weightList=c(3.3e23,4.9e24,6.0e24,6.4e23,1.9e27,5.7e26,8.7e25,1.0e26,7.5e22,2.0e30,1.3e22)
+radiusList=c(2440,6052,6371,3400,71500,60250,25600,24750,1740,700000,1140)
+
+for (i in 1:ncol(planetData)){
+  planetData[1,i]<-100*(as.numeric(unname(weightList[i]))/as.numeric(unname(radiusList[i]))^2)/as.numeric((unname(weightList[3]))/as.numeric(unname(radiusList[3]))^2)
+}
+
+barplot(as.numeric(unname(planetData[1,])),ylab="Weight equivalent of 100 lbs on Earth")
+axis(side=1,labels=colnames(planetData),at=c(0.5,1.9,3,4.3,5.5,6.7,7.9,9.1,10.3,11.5,12.8),las=2)
+```
